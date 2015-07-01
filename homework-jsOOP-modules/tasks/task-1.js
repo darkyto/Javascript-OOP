@@ -7,6 +7,7 @@
  * 25% the submitted homework (count of submitted homeworks / count of all homeworks) for the course
  */
 function solve() {
+    'use strict';
     /*jslint nomen: true */
     function validateResults(results) {
         var resultIDs = [],
@@ -46,7 +47,7 @@ function solve() {
         if (presentations.length === 0 || presentations === undefined) {
             throw new Error('Invalid input at [presentations]');
         }
-        presentations.forEach(function(title) {
+        presentations.forEach(function (title) {
             if (!validateTitle(title)) {
                 throw new Error('Invalid input at [presentations[title]]');
             }
@@ -87,12 +88,12 @@ function solve() {
             }
 
             name = name.trim();
-            var names = name.split(' ');
-            var student = {
-                firstname: names[0],
-                lastname: names[1]
-            };
-            var counter = this.students.length + 1;
+            var names = name.split(' '),
+                student = {
+                    firstname: names[0],
+                    lastname: names[1]
+                },
+                counter = this.students.length + 1;
 
             student.id = counter;
             //student.id = this.studentID++;
@@ -118,14 +119,14 @@ function solve() {
         pushExamResults: function (results) {
             var len = this._students.length;
             // results = [{stID:x, score:z},{},{},...];  
-            results.forEach(function(result) {
+            results.forEach(function (result) {
                 if (result.StudentID > len) {
                     throw new Error('Invalid studentID');
                 }
             });
             validateResults(results);
 
-            this._results = results.map(function(result) {
+            this._results = results.map(function (result) {
                 return (result.StudentID > 0 && result.StudentID <= len) ? {
                     studentID: result.StudentID,
                     score: result.Score
@@ -135,14 +136,13 @@ function solve() {
                 };
             });
         },
-        getTopStudents: function() {
-            var topPerformers = [];
-            var tempArr = this._results.slice();
-            tempArr = tempArr.sort(function(a, b) {
+        getTopStudents: function () {
+            var topPerformers = [],
+                tempArr = this._results.slice(),
+                len = this._results.length;
+            tempArr = tempArr.sort(function (a, b) {
                 return b.score - a.score;
             });
-
-            var len = this._results.length;
             if (len > 10) {
                 topPerformers = tempArr.slice(0, 9);
             } else {
@@ -155,7 +155,7 @@ function solve() {
         get: function () {
             return this._title;
         },
-        set: function(value) {
+        set: function (value) {
             this._title = value;
         }
     });
@@ -181,8 +181,8 @@ function solve() {
             return this._homeworks;
         },
         set: function (value) {
-            var st = value.student;
-            var hw = value.homework;
+            var st = value.student,
+                hw = value.homework;
             this._homeworks = this._homeworks || [];
             this._homeworks[st] = hw;
         }
@@ -192,8 +192,8 @@ function solve() {
             return this._resultsList;
         },
         set: function (result) {
-            var stID = result.StudentID;
-            var score = result.Score;
+            var stID = result.StudentID,
+                score = result.Score;
             this._resultsList = this._resultsList || [];
             this._resultsList[stID] = score;
         }
